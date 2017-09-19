@@ -8,3 +8,4 @@ for (eachchar in b){
   else {print ("nono")}
 }
 
+# the way to solve it is to use "[]"
