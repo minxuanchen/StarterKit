@@ -1,2 +1,3 @@
 # minxuanchen
-the first demo for basic workflow
+i am Minxuan Chen
+Good 2 C U
