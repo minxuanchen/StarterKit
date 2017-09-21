@@ -1,0 +1,72 @@
+---
+title: "A03c_G40116958"
+author: "minxuan"
+date: "September 21, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+rnorm2 <- function(n,mean,sd) { mean+sd*scale(rnorm(n)) }
+set.seed(1239)
+r1 <- rnorm2(100,25,4)
+r2 <- rnorm2(50,10,3)
+samplingframe <- c(r1,r2)
+hist(samplingframe, breaks=20,col = "pink")
+```
+
+(a)
+In the above code, a function named rnorm2 was defined. It generates n random samples from a normal distribution with preset mean and sd.
+Seed is used to make the samples stable.
+2 series of samples from different normal distribution set was generated and put together.
+The histogram is used to show the distribution of the combination of 2 samples.
+So, the histogram is not a normal distribution one for that it actually shows 2 normal distribution samples in 1 plot.
+Their means are 25 and 10. sd are 4 and 3. The height difference comes from their sample size, one is 100 and another is 50.
+
+(b)
+(c)
+The plots list as below.
+```{r}
+# use smean to store the means from sampling
+smean15<-c()
+# get 15 means
+for (i in 1:50){
+  smean15<-append(smean15,mean(sample(samplingframe,15)))
+}
+
+# get 45 means
+smean45<-c()
+for (i in 1:50){
+  smean45<-append(smean45,mean(sample(samplingframe,45)))
+}
+
+#draw plots together
+par(mfrow=c(2,1),mar=c(3,6,2,1))
+hist(smean15)
+hist(smean45)
+```
+
+
+(d)
+The 2 histogram comes from samples of a same data set.
+They share the same mean.
+The first sample comes from means of only 15 numbers that are not enough to generate a stable mean.
+So for the first distribution plot, the mean has a wider range thus the distribution has a bigger sd.
+The second sample contains 45 numbers that are more stable to form plot.
+So for the second distribution plot, the mean has a narrow range thus the distribution has a smaller sd.
+
+(e)
+The mean for a certain samples from a data set follows a normal distribution of N(mean of the data set, sigma). Sigma is a function of sample size. The bigger the size, the smaller the sigma.
+
+(f)
+Absolutely yes. I can do test to the CLT myself and draw plots that are so straight forward and easy to understand. It's such a practical way to learn new things.
+

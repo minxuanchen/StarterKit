@@ -1,0 +1,89 @@
+---
+title: "household&marketAnalysis"
+author: "minxuan"
+date: "2017-9-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(dplyr)
+library(readr)
+# save the data as mycsv
+mycsv<-read_csv("C:/Users/Administrator/Desktop/households.csv")
+attach(mycsv)
+# get the first several rows of the csv
+head(mycsv)
+```
+
+(a)
+We can see from the table that this CSV contains 9 columns. The data type of each column is shown behind the column names. All the data types are integers.
+By the way, the ownership can be considered as logical variable. 
+
+(b)
+Household is ordinal. It's a sequence goes from 1 to 500
+Family Size represent the number of people in a family. It's numeric, neither ordinal nor nominal.
+Location are numbers that represent different meanings. It's nominal.
+Ownership is a logical variable. It's nomial.
+Other variables are integers that are numeric variable, neither nominal nor ordinal.
+
+(c)
+Plots are as below.
+```{r}
+# draw histograms of each numeric variable
+hist(`Family Size`)
+hist(`First Income`)
+hist(`Second Income`)
+hist(`Monthly Payment`)
+hist(Utilities)
+hist(Debt)
+```
+(c)Family Size: right skewed
+First Income: right skewed
+Second Income: right skewed
+Monthly Payment: right skewed
+Utilities: neither skewed nor symmetric
+Debt: symmetric
+
+(d)
+```{r}
+# get minimum and maximum number of Debt
+min(Debt)
+max(Debt)
+```
+
+(e)
+```{r}
+# get quartiles od Debt
+quantile(Debt)
+```
+
+(f)
+IQR equals to upper quartile subtract lower quartile.
+It means the range between the household's debt which ranks 75% and the household's debt which ranks 25%.
+In this case, the IQR equals to 2727.
+```{r}
+# get the interquartile range of Debt
+IQR(Debt)
+```
+
+Analysis Summary Report
+
+The quartiles of a ranked set of data values that divide the data set into four equal groups, each group comprising a quarter of the data. 
+The first quartile (Q1) is defined as the middle number between the smallest number and the median of the data set. The second quartile (Q2) is the median of the data. The third quartile (Q3) is the middle value between the median and the highest value of the data set.
+The interquartile range (IQR) is equal to the difference between 75th and 25th percentiles, or between upper and lower quartiles, IQR = Q3 ??? Q1. 
+Quartile is used to measure the data range and distribution. The IQR is a measure of variability.
+In this case quartile and IQR were used to measure the debt level.
+Also, several histogram were drawn to show the distribution. Many models requires factors to be normally distributed. It can bu a pre test to prepare for model setting.
+
+
+

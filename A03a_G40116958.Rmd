@@ -1,0 +1,90 @@
+---
+title: "A03a_G40116958"
+author: "minxuan"
+date: "2017-9-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(dplyr)
+library(readr)
+# save the data as mycsv2
+mycsv2<-read_csv("C:/Users/Administrator/Desktop/SupermarketTransactions.csv")
+# get the first and last several rows of the csv
+head(mycsv2)
+tail(mycsv2)
+# note that the last 2 rows are not data
+```
+
+(a)
+All purchases made during January and February of 2008
+
+```{r}
+# chage Purchase Date to a standard form of date
+mycsv2$`Purchase Date`<-as.Date(mycsv2$`Purchase Date`,"%m/%d/%Y")
+# get subset data
+mycsv3<-subset(mycsv2,mycsv2$`Purchase Date`>="2008-01-01" & mycsv2$`Purchase Date`<="2008-02-29")
+
+#draw plots
+barplot(table(mycsv3$`Units Sold`),xlab = "Units Sold",ylab = "Frequency",main = "All purchases made during January and February of 2008")
+
+hist(mycsv3$Revenue,xlab = "Revenue",main = "All purchases made during January and February of 2008")
+```
+
+(b)
+All purchase made by married female homeowners
+
+```{r}
+# get needed subset data
+mycsv4<-subset(mycsv2,mycsv2$Gender=="F" & mycsv2$`Marital Status`=="M" & mycsv2$Homeowner == "Y")
+
+#draw plots
+barplot(table(mycsv4$`Units Sold`),xlab = "Units Sold",ylab = "Frequency",main = "All purchase made by married female homeowners")
+
+hist(mycsv4$Revenue,xlab = "Revenue",main = "All purchase made by married female homeowners")
+```
+
+(c)
+All purchases made in the state of California
+
+```{r}
+# get needed subset data
+mycsv5<-subset(mycsv2,mycsv2$`State or Province`=="CA")
+
+#draw plots
+barplot(table(mycsv5$`Units Sold`),xlab = "Units Sold",ylab = "Frequency",main = "All purchases made in the state of California")
+
+hist(mycsv5$Revenue,xlab = "Revenue",main = "All purchases made in the state of California")
+```
+
+(d)
+All purchases made in the Produce product department
+
+```{r}
+# get needed subset data
+mycsv6<-subset(mycsv2,mycsv2$`Product Department`=="Produce")
+
+#draw plots
+barplot(table(mycsv6$`Units Sold`),xlab = "Units Sold",ylab = "Frequency",main = "All purchases made in the Produce product department")
+
+hist(mycsv6$Revenue,xlab = "Revenue",main = "All purchases made in the Produce product department")
+```
+
+Analysis Summary Report
+
+A histogram is an accurate graphical representation of the distribution of numerical data. It is an estimate of the probability distribution of a continuous variable (quantitative variable).
+A bar chart or bar graph is a chart or graph that presents categorical data with rectangular bars with heights or lengths proportional to the values that they represent. The bars can be plotted vertically or horizontally. A vertical bar chart is sometimes called a line graph. A bar graph shows comparisons among discrete categories. One axis of the chart shows the specific categories being compared, and the other axis represents a measured value. Some bar graphs present bars clustered in groups of more than one, showing the values of more than one measured variable.
+In R, the two kinds of plot sometimes may have the same data value. But they are not the same. But both of them can be used to show data distribution.
+Histogram was used to show the distribution of Revenue while bar plot was used to show Unitsold.
+We can see that under all the subset we used from the dataset, the the distribution of Revenue is not normal while the distribution of Unitsold is normal.
+If we need to set up a model, we might need to modify the distribution for that many models require normal distribution dataset.
