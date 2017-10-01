@@ -1,0 +1,147 @@
+---
+title: "A04_G40116958.rmd"
+author: "minxuan"
+date: "September 28, 2017"
+output: html_document
+---
+
+```{r}
+library(dplyr)
+library(tibble)
+library(xtable)
+library(ggplot2)
+```
+
+## Part A
+
+# Read the data
+# You download this file from https://www.kaggle.com/ludobenistant/hr-analytics
+# and use your own path 
+
+```{r}
+mydf <- read.csv("~/HR_comma_sep.csv")
+```
+
+# get rows and columns
+
+```{r}
+dim.data.frame(mydf)
+```
+
+# explore the data structure
+
+```{r}
+str(mydf)
+```
+
+# Correlate all the numeric fields
+
+```{r}
+xtable(cor(subset(mydf, select = -c(sales, salary))))
+```
+
+# Create a correlation heat map
+
+```{r}
+library(reshape2)
+melted_cormat <- melt(cor(subset(mydf, select = -c(sales, salary))))
+head(melted_cormat)
+
+g <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_raster()
+g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+g
+```
+
+# Develop a 3-way table
+
+```{r}
+mydf$status <- ifelse(mydf$left == 1, "Left", "Stay")
+table(mydf$status,  mydf$salary, mydf$sales)
+```
+
+# Employees who leave by department
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Left'),], 
+       aes(x = sales, fill = status)) + geom_bar() + guides(fill=FALSE) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+# Complete this for employees who stay in the company by department
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Stay'),], 
+       aes(x = sales, fill = status)) + geom_bar() + guides(fill=FALSE) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+
+## Part B
+
+# Complete this for employees who leave the company by salary level 
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Left'),], 
+       aes(x = salary, fill = status)) + geom_bar() + guides(fill=FALSE) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+# Complete this for employees who stay in the company by salary level 
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Stay'),], 
+       aes(x = salary, fill = status)) + geom_bar() + guides(fill=FALSE) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+# Make a chart for number of employees who leave the company by time spent in the company
+# faceted by salary level AND department
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Left'),], 
+       aes(x = time_spend_company, fill = status)) + geom_bar() + guides(fill=FALSE) +
+  facet_grid(salary~sales)
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+# Make a chart for number of employees who who stay in the company by time spent in the company 
+# faceted by salary level AND department
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Stay'),], 
+       aes(x = time_spend_company, fill = status)) + geom_bar() + guides(fill=FALSE) +
+  facet_grid(salary~sales)
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+
+## Part C
+# Draw a bar plot of how many years did employees stay in the company before leaving
+# Year stayed in the company is the x axis
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Left'),], 
+       aes(x = time_spend_company, fill = time_spend_company)) + geom_bar() + guides(fill=FALSE) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+# Draw a bar plot of how many years did employees stay in the company before leaving
+# by department
+# Year stayed in the company is the x axis
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Left'),], 
+       aes(x = time_spend_company, fill = time_spend_company)) + geom_bar() + guides(fill=FALSE) + facet_grid(.~sales)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+# Draw a bar plot of how many years did employees stay in the company before leaving
+# by salary level
+# Year stayed in the company is the x axis
+
+```{r}
+ggplot(mydf[ which(mydf$status=='Left'),], 
+       aes(x = time_spend_company, fill = time_spend_company)) + geom_bar() + guides(fill=FALSE) + facet_grid(.~salary)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
