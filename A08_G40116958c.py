@@ -18,3 +18,6 @@ mydict2=collections.Counter(mylist2)
 
 mc.print_output(mydict,mydict2)
 
+"""
+Some letters like "y" or "s" in our output are from "she's", "y'know" or "don't".
+"""

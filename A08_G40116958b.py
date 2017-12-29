@@ -15,3 +15,7 @@ mylist=mb.process_data(mytext)
 mydict=collections.Counter(mylist)
 
 mb.print_output(mydict)
+
+"""
+Some letters like "y" or "s" in our output are from "she's", "y'know" or "don't".
+"""
